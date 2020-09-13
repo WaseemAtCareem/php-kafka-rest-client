@@ -1,5 +1,5 @@
 {
-    "name": "grongor/kafka-rest-client",
+    "name": "waseematcareem/php-kafka-rest-client",
     "description": "Client for Confluent REST Proxy v2 of Apache Kafka",
     "type": "library",
     "license": "MIT",
