@@ -22,7 +22,7 @@
         "php": "^7.2|^8.0",
         "beberlei/assert": "^3.2",
         "bentools/iterable-functions": "^1.4",
-        "guzzlehttp/guzzle": "^7.0",
+        "guzzlehttp/guzzle": "^6.0",
         "jms/serializer": "^3.9",
         "lcobucci/clock": "^1.2",
         "psr/http-client": "^1.0",
