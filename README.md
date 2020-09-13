@@ -1,4 +1,4 @@
-kafka-rest-client [![Build Status](https://travis-ci.com/grongor/php-kafka-rest-client.svg?branch=master)](https://travis-ci.com/grongor/php-kafka-rest-client)
+php-kafka-rest-client [![Build Status](https://travis-ci.com/grongor/php-kafka-rest-client.svg?branch=master)](https://travis-ci.com/grongor/php-kafka-rest-client)
 =================
 
 This is a modern PHP client for [Confluent REST Proxy](https://docs.confluent.io/current/kafka-rest/) (version 2).
@@ -10,23 +10,7 @@ and [PSR-18](https://www.php-fig.org/psr/psr-18/).
 Aside from implementing the REST Proxy API this library adds some convenient classes useful for the most interactions
 with Apache Kafka - see [examples](#Examples) for the whole list and a simple tutorial on how to use them.
 
-Missing features
-----------------
-
-Some features were deliberately skipped to simplify the implementation/shorten the development time.
-If you need anything and you're willing create a pull request, I'd be happy to check it out
-and (if it makes sense) merge it. You can start the discussion by opening an issue.
-
-- version 1 of the REST Proxy API
-  - It's easy to upgrade the REST Proxy, so I don't see any point in implementing the first version.
-- AVRO embedded format
-- JSON embedded format
-  - I think that the binary format is sufficient. You can always serialize/deserialize your objects before/after
-  they interact with this library, therefore direct integration here is just a complication.
-- async operations
-  - To simplify the library all the methods are synchronous. That might definitely change if the need arises.
-- all not-yet-implemented features mentioned [here](https://docs.confluent.io/current/kafka-rest/#features)
-  - When these features are implemented, they will be added here ASAP.
+*__UPDATE__: This fork extends original project with Guzzle to implement standards mentioned above.*
 
 Examples
 --------
@@ -45,6 +29,7 @@ Whether the error is [non-]retryable is based on the `error_code` as is
 It's up to you what you do with those.
 
 ```php
+$restClient = new \Grongor\KafkaRest\Api\GuzzleHttpRestClient('http://kafka-proxy/');
 $producer = new Producer($restClient);
 $producer->produce('your-topic', new Message('some-message'));
 
@@ -72,6 +57,7 @@ there are no messages to yield. The idle interval is then equal to the `timeout`
 `consumerRequestTimeoutMs` option if set, otherwise to the proxy configuration option `consumer.request.timeout.ms`.
 
 ```php
+$restClient = new \Grongor\KafkaRest\Api\GuzzleHttpRestClient('http://kafka-proxy/');
 $consumerFactory = new ConsumerFactory($restClient);
 $consumer = $consumerFactory->create('your-consumer-group', Subscription::topic('your-topic'));
 foreach ($consumer->consume() as $message) {
@@ -98,6 +84,7 @@ As mentioned in the Consumer example, you may need to commit the messages. For t
 which accepts the yielded `MessagesBatch` and commits all the messages inside it in one request.
 
 ```php
+$restClient = new \Grongor\KafkaRest\Api\GuzzleHttpRestClient('http://kafka-proxy/');
 $batchConsumerFactory = new BatchConsumerFactory($restClient);
 $batchConsumer = $batchConsumerFactory->create(
     'your-consumer-group',
@@ -118,3 +105,21 @@ foreach ($batchConsumer->consume() as $messagesBatch) {
     $batchConsumer->commit($messagesBatch);
 }
 ```
+
+Missing features
+----------------
+
+Some features were deliberately skipped to simplify the implementation/shorten the development time.
+If you need anything and you're willing create a pull request, I'd be happy to check it out
+and (if it makes sense) merge it. You can start the discussion by opening an issue.
+
+- version 1 of the REST Proxy API
+  - It's easy to upgrade the REST Proxy, so I don't see any point in implementing the first version.
+- AVRO embedded format
+- JSON embedded format
+  - I think that the binary format is sufficient. You can always serialize/deserialize your objects before/after
+  they interact with this library, therefore direct integration here is just a complication.
+- async operations
+  - To simplify the library all the methods are synchronous. That might definitely change if the need arises.
+- all not-yet-implemented features mentioned [here](https://docs.confluent.io/current/kafka-rest/#features)
+  - When these features are implemented, they will be added here ASAP.
