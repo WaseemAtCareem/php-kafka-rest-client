@@ -12,8 +12,7 @@
         {
             "name": "Waseem Ahmed",
             "email": "wasim.ahmed@careem.com",
-            "role": "Software Development Engineer II",
-            "description": "Forked the original project for Guzzle based implementation"
+            "role": "Software Development Engineer II"
         }
     ],
     "config": {
