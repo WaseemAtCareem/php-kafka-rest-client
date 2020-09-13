@@ -29,7 +29,7 @@ use function http_build_query;
 use function Safe\json_decode;
 use function Safe\sprintf;
 
-final class HttpRestClient implements RestClient
+class HttpRestClient implements RestClient
 {
     /** @var ClientInterface */
     private $client;
